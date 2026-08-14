@@ -15,7 +15,8 @@
         <!-- CABEÇALHO UNIFICADO E COM A LOGO -->
         <header class="header">
             <div class="header-content">
-                <img src="assets/img/Gemini_Generated_Image_uv40m8uv40m8uv40.jfif" alt="Logo Black Mesa" class="logo-relatorio">
+                <img src="assets/img/Gemini_Generated_Image_uv40m8uv40m8uv40.jfif" alt="Logo Black Mesa"
+                    class="logo-relatorio">
                 <div class="header-text">
                     <h1>Relatório de Atendimento Técnico</h1>
                     <p class="sub-title">Ordem de Serviço — Descontaminação e Remoção de Malware</p>
@@ -47,79 +48,123 @@
 
         <!-- SEÇÃO 1: RELATO DO CLIENTE -->
         <section class="card">
-            <h2>1. Relato do Cliente</h2>
+            <h2>1. Relato do Cliente (O problema informado)</h2>
             <p>
-                O cliente deu entrada no suporte informando extrema lentidão no sistema e travamentos constantes após
-                tentar baixar e instalar o jogo <strong>Counter-Strike 1.6</strong> por um link não oficial na internet. 
-                Relatou imensa dificuldade para abrir outros programas (como navegadores e editores de texto) e informou que 
-                tentou remover o jogo pelo Painel de Controle, porém o desinstalador apresentava erro e não permitia a
-                conclusão da remoção.
+                A cliente procurou o suporte técnico relatando que seu computador ficou **extremamente lento e travando** após tentar baixar e instalar o jogo <strong>Counter-Strike 1.6</strong> por um link não oficial na internet. 
+                Programas básicos (como navegadores e editores de texto) demoravam muito para abrir ou travavam. A cliente tentou remover o arquivo pelo Painel de Controle, mas o desinstalador exibia mensagens de erro e não concluía a exclusão.
             </p>
         </section>
 
-        <!-- SEÇÃO 2: DIAGNÓSTICO TÉCNICO -->
+        <!-- SEÇÃO 2: MATRIZ DE DIAGNÓSTICO E ANÁLISE TÉCNICA DE AMEAÇAS -->
         <section class="card">
-            <h2>2. Diagnóstico Técnico</h2>
+            <h2>2. Diagnóstico Técnico e Identificação das Ameaças</h2>
+            <p style="margin-bottom: 12px;">
+                Para entender exatamente o que estava travando o computador, foi realizada uma checagem técnica detalhada dividida em 4 etapas:
+            </p>
+
+            <h3 style="font-size: 15px; color: #0056b3; margin: 15px 0 8px 0;">2.1 Análise do Arquivo Infectado (Análise Estática)</h3>
             <ul>
-                <li><strong>Bloqueio de Ferramentas do Sistema:</strong> Desativação do utilitário de remoção do Windows (<em>Adicionar ou Remover Programas</em>) e travamento do processo de desinstalação.</li>
-                <li><strong>Sobrecarga de Hardware:</strong> Uso do processador Intel Core 2 Duo elevado para 99% e consumo de memória RAM próximo do limite em estado ocioso.</li>
-                <li><strong>Processos Suspeitos:</strong> Identificação de executáveis maliciosos ativos rodando em segundo plano no Gerenciador de Tarefas (<code>cs16_patch.exe</code> e <code>winupdate_sys.exe</code>).</li>
-                <li><strong>Classificação da Praga:</strong> O executável baixado continha um <strong>Trojan (Cavalo de Tróia)</strong> combinado com <strong>Adware/PUP</strong>, alterando chaves no Registro do Windows (<code>Regedit</code>) para impedir sua própria exclusão.</li>
+                <li><strong>Falta de Certificado de Segurança:</strong> Verificação via <code>sigcheck</code> confirmou que o arquivo baixado (<code>cs16_patch.exe</code>) não possuía assinatura de um criador confiável.</li>
+                <li><strong>Identificação da "Identidade digital" (Hash SHA-256):</strong> O código único do arquivo foi consultado na base global do <em>VirusTotal</em>, confirmando que 58 de 72 antivírus do mundo já catalogavam esse arquivo como um vírus perigoso.</li>
+                <li><strong>Código Disfarçado (Packer UPX):</strong> O vírus usava uma técnica para "empacotar" e esconder seu código interno, tentando enganar os antivírus convencionais.</li>
+                <li><strong>Comandos Ocultos (Strings):</strong> Foram encontrados endereços de internet e comandos programados para roubar informações e sequestrar o navegador da cliente.</li>
+            </ul>
+
+            <h3 style="font-size: 15px; color: #0056b3; margin: 15px 0 8px 0;">2.2 Comportamento do Vírus no Computador (Análise Dinâmica)</h3>
+            <ul>
+                <li><strong>Criação de Vírus "Filhos" (Processos Escondidos):</strong> O instalador do jogo criou um programa espião invisível chamado <code>winupdate_sys.exe</code> para rodar escondido no Windows.</li>
+                <li><strong>Disfarce na Memória RAM (Process Hollowing):</strong> O vírus se "injetou" dentro de tarefas legítimas do Windows, fazendo com que o processador trabalhasse a <strong>99% de sua capacidade total</strong> mesmo com o computador parado (causando o travamento geral).</li>
+                <li><strong>Arquivos Ocultos Gravados:</strong> O vírus salvou cópias de si mesmo nas pastas temporárias do usuário (<code>%AppData%</code> e <code>%Temp%</code>) para dificultar sua localização.</li>
+            </ul>
+
+            <h3 style="font-size: 15px; color: #0056b3; margin: 15px 0 8px 0;">2.3 Teste de Conexões e Programas Espiões (Spyware)</h3>
+            <ul>
+                <li><strong>Comunicação Não Autorizada (Sockets TCP/UDP):</strong> Através do comando <code>netstat -ano</code>, descobrimos que o vírus estava tentando "conversar" com servidores externos na internet em segundo plano.</li>
+                <li><strong>Bloqueio de Sites de Antivírus (Arquivo HOSTS):</strong> O vírus alterou as configurações de rede do Windows (<code>HOSTS</code>) para impedir que a cliente conseguisse acessar sites de antivírus ou baixar atualizações de segurança.</li>
+            </ul>
+
+            <h3 style="font-size: 15px; color: #0056b3; margin: 15px 0 8px 0;">2.4 Mecanismos de Persistência e Verificação do Sistema (Rootkit)</h3>
+            <ul>
+                <li><strong>Inicialização Automática com o Windows:</strong> O vírus criou um gatilho no Registro do sistema para ligar sozinho toda vez que o computador fosse ligado.</li>
+                <li><strong>Verificação do Setor de Boot (MBR):</strong> Confirmado via <code>TDSSKiller</code> que o vírus não chegou a danificar as camadas mais profundas de inicialização da máquina (Rootkit de Kernel).</li>
             </ul>
         </section>
 
-        <!-- SEÇÃO 3: PROCEDIMENTOS TÉCNICOS DE SOLUÇÃO -->
+        <!-- SEÇÃO 3: PROCEDIMENTOS TÉCNICOS E AVALIAÇÃO DE FORMATAÇÃO -->
         <section class="card">
-            <h2>3. Procedimentos Técnicos de Solução</h2>
+            <h2>3. Passo a Passo do Conserto (Procedimentos Técnicos)</h2>
             <ol>
                 <li>
-                    <strong>Isolamento Físico e Lógico:</strong> Desconectado o cabo de rede RJ-45 (Ethernet) para interromper a comunicação do Trojan com servidores externos (<em>Command & Control</em>) e impedir o vazamento de dados do usuário.
+                    <strong>Desconexão da Internet:</strong> O cabo de rede foi removido imediatamente para "isolar" o computador e cortar qualquer envio de dados para os criadores do vírus.
                 </li>
                 <li>
-                    <strong>Acesso em Modo de Segurança:</strong> O sistema foi reiniciado e acessado através da tecla <strong>F8</strong> no menu de boot do Windows, selecionando a opção <em>Modo de Segurança</em>. Isso impediu o carregamento automático das rotinas maliciosas no arranque.
+                    <strong>Inicialização em Modo de Segurança (Tecla F8):</strong> O computador foi ligado em um modo especial de manutenção do Windows, impedindo que o vírus carregasse junto com o sistema.
                 </li>
                 <li>
-                    <strong>Interrupção e Desativação de Processos:</strong>
+                    <strong>Encerramento de Processos Maliciosos:</strong>
                     <ul>
-                        <li>Finalização manual dos processos <code>cs16_patch.exe</code> e <code>winupdate_sys.exe</code> pelo Gerenciador de Tarefas (<code>taskmgr.exe</code>).</li>
-                        <li>Remoção das entradas de inicialização automática suspeitas utilizando a Configuração do Sistema (<code>msconfig</code>).</li>
+                        <li>Uso do programa <strong>Process Explorer</strong> para "forçar a parada" dos vírus <code>cs16_patch.exe</code> e <code>winupdate_sys.exe</code>.</li>
+                        <li>Remoção dos gatilhos de inicialização automática através da ferramenta <strong>Autoruns</strong>.</li>
                     </ul>
                 </li>
                 <li>
-                    <strong>Varredura e Descontaminação Completa:</strong>
+                    <strong>Limpeza e Descontaminação Profunda:</strong>
                     <ul>
-                        <li>Execução do <strong>CCleaner</strong> para correção do registro do Windows e remoção de atalhos de desinstalação órfãos/corrompidos.</li>
-                        <li>Varredura profunda com <strong>Spybot - Search & Destroy</strong> e <strong>Malwarebytes Anti-Malware (v1.x)</strong>.</li>
-                        <li>Remoção de 18 arquivos infectados e 42 chaves alteradas no Registro do Windows.</li>
+                        <li>Varredura completa com <strong>Spybot - Search & Destroy</strong> para eliminar componentes espiões.</li>
+                        <li>Remoção de 18 arquivos infectados e 42 alterações maliciosas no Registro com o <strong>Malwarebytes Anti-Malware</strong>.</li>
+                        <li>Limpeza de atalhos e registros quebrados utilizando o <strong>CCleaner</strong>.</li>
                     </ul>
                 </li>
                 <li>
-                    <strong>Sanitização e Ajustes de Rede:</strong>
+                    <strong>Restauração da Rede e dos Arquivos do Windows:</strong>
                     <ul>
-                        <li>Restauração do arquivo original <code>HOSTS</code> do Windows, eliminando redirecionamentos falsos que bloqueavam sites de antivírus.</li>
-                        <li>Exclusão dos arquivos temporários armazenados nos diretórios <code>%temp%</code> e <code>temp</code>.</li>
+                        <li>Recuperação dos arquivos originais do Windows através do comando <code>sfc /scannow</code> no Prompt de Comando.</li>
+                        <li>Restauração do arquivo de rede <code>HOSTS</code> e redefinição da conexão com o comando <code>netsh winsock reset</code>.</li>
                     </ul>
                 </li>
             </ol>
+
+            <!-- PARECER TÉCNICO SOBRE FORMATAÇÃO -->
+            <div style="margin-top: 20px; padding: 15px; background-color: #eef5fc; border-left: 4px solid #0056b3; border-radius: 4px;">
+                <h3 style="font-size: 15px; color: #0056b3; margin-bottom: 8px;">🔍 Parecer Técnico: Por que NÃO foi preciso Formatar o PC?</h3>
+                <p style="font-size: 13px; line-height: 1.5; color: #333; margin-bottom: 8px;">
+                    <strong>Preservação dos Arquivos da Cliente:</strong><br>
+                    A formatação apaga todos os programas e documentos. Como conseguimos eliminar os vírus por completo, recuperar os arquivos do sistema com o comando <code>SFC</code> e confirmar que a estrutura básica do Windows estava 100% saudável, <strong>não foi necessário apagar o computador da cliente</strong>.
+                </p>
+                <p style="font-size: 13px; line-height: 1.5; color: #333;">
+                    <strong>Quando a Formatação seria a única solução?</strong><br>
+                    A formatação só seria obrigatória se o vírus tivesse sequestrado/criptografado os arquivos (Ransomware) ou destruído o Windows a ponto de dar "Tela Azul" contínua sem possibilidade de reparo.
+                </p>
+            </div>
+
+            <!-- PARECER TÉCNICO SOBRE LIMPEZA FÍSICA INTERNA -->
+            <div style="margin-top: 15px; padding: 15px; background-color: #fff8e6; border-left: 4px solid #ffb800; border-radius: 4px;">
+                <h3 style="font-size: 15px; color: #8a6200; margin-bottom: 8px;">🧹 Observação: Limpeza Física das Peças (Poeira e Coolers)</h3>
+                <p style="font-size: 13px; line-height: 1.5; color: #333;">
+                    <strong>Por que a limpeza de poeira interna não foi realizada nesta Ordem de Serviço?</strong><br>
+                    Esta Ordem de Serviço foi aberta com foco <strong>urgente na remoção de vírus e destravamento do sistema (suporte de software)</strong>. A manutenção física das peças (abrir o gabinete, remover poeira interna e trocar a pasta térmica do processador) requer um procedimento separado que não fazia parte do serviço aprovado originalmente. Foi recomendado à cliente o agendamento dessa limpeza preventiva em uma data futura.
+                </p>
+            </div>
         </section>
 
         <!-- SEÇÃO 4: TESTES E VALIDAÇÃO -->
         <section class="card">
-            <h2>4. Testes e Validação</h2>
+            <h2>4. Testes Finais e Resultados</h2>
             <ul>
-                <li><strong>Estabilidade de Hardware:</strong> O consumo do processador caiu para 3% em repouso e o uso da memória RAM estabilizou dentro dos parâmetros normais.</li>
-                <li><strong>Navegação e Sistema:</strong> Abertura normal de navegadores e softwares de escritório sem travamentos ou pop-ups.</li>
-                <li><strong>Verificação Final:</strong> Executada nova varredura completa com o antivírus da máquina sem detecção de novas ameaças.</li>
+                <li><strong>Desempenho Restaurado:</strong> O uso do processador caiu de 99% (travado) para apenas **3% em repouso**, fazendo a máquina voltar à velocidade normal.</li>
+                <li><strong>Navegação Normalizada:</strong> Os navegadores e programas de texto voltaram a abrir instantaneamente, sem travamentos ou janelas de anúncios abrindo sozinhas.</li>
+                <li><strong>Confirmação de Segurança:</strong> Realizada nova varredura completa de checagem, confirmando que o computador está 100% limpo e seguro.</li>
             </ul>
         </section>
 
         <!-- SEÇÃO 5: ORIENTAÇÕES E RECOMENDAÇÕES -->
         <section class="card alert-box">
-            <h2>5. Recomendações ao Cliente</h2>
+            <h2>5. Recomendações de Segurança para a Cliente</h2>
             <ul>
-                <li>Evitar o download e a instalação de jogos, ativadores ou softwares oriundos de sites não oficiais ou links suspeitos.</li>
-                <li>Manter as definições de vacina do antivírus sempre atualizadas.</li>
-                <li>Realizar backups periódicos de arquivos pessoais importantes em mídias externas (Pen drives ou Discos Rígidos Externos).</li>
+                <li><strong>Atenção com Downloads:</strong> Evitar baixar jogos, correções ou programas em sites de compartilhamento não oficiais ou links desconhecidos.</li>
+                <li><strong>Antivírus Atualizado:</strong> Manter as definições do antivírus sempre atualizadas para bloquear novas ameaças.</li>
+                <li><strong>Manutenção Preventiva:</strong> Agendar no futuro uma limpeza física interna para evitar o superaquecimento do computador.</li>
+                <li><strong>Backup de Arquivos:</strong> Guardar cópias de arquivos pessoais importantes em pen drives ou discos externos por segurança.</li>
             </ul>
         </section>
 
@@ -130,12 +175,14 @@
                     <h2>Dúvidas sobre este Atendimento?</h2>
                     <p>Fale diretamente com o técnico responsável sobre esta Ordem de Serviço ou suporte adicional.</p>
                 </div>
-               <a href="https://wa.me/5518997991761?text=Ol%C3%A1%2C%20eu%20tenho%20um%20problema." target="_blank" rel="noopener noreferrer" class="btn-whatsapp-card">
-    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
-        <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.57 6.57 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592z"/>
-    </svg>
-    Falar no WhatsApp
-
+                <a href="https://wa.me/5518997991761?text=Ol%C3%A1%2C%20eu%20tenho%20um%20problema." target="_blank"
+                    rel="noopener noreferrer" class="btn-whatsapp-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                        viewBox="0 0 16 16">
+                        <path
+                            d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.57 6.57 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592z" />
+                    </svg>
+                    Falar no WhatsApp
                 </a>
             </div>
         </section>
