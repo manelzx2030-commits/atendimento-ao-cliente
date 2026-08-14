@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Atendimento Técnico - OS #2026-0842</title>
+    <!-- CSS Separado -->
+    <link rel="stylesheet" href="assets/css/relatorio.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- CABEÇALHO UNIFICADO E COM A LOGO -->
+        <header class="header">
+            <div class="header-content">
+                <img src="assets/img/Gemini_Generated_Image_uv40m8uv40m8uv40.jfif" alt="Logo Black Mesa" class="logo-relatorio">
+                <div class="header-text">
+                    <h1>Relatório de Atendimento Técnico</h1>
+                    <p class="sub-title">Ordem de Serviço — Descontaminação e Remoção de Malware</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- CARTÃO DE INFORMAÇÕES -->
+        <section class="info-card">
+            <div class="info-item">
+                <strong>Ordem de Serviço:</strong> <span>OS-2026-0842</span>
+            </div>
+            <div class="info-item">
+                <strong>Data do Atendimento:</strong> <span>11/05/2008</span>
+            </div>
+            <div class="info-item">
+                <strong>Técnico Responsável:</strong> <span>Emanuel Barreto</span>
+            </div>
+            <div class="info-item">
+                <strong>Cliente:</strong> <span>Maryah</span>
+            </div>
+            <div class="info-item">
+                <strong>Equipamento:</strong> <span>Dell Inspiron 530 (Desktop Tower)</span>
+            </div>
+            <div class="info-item">
+                <strong>Status:</strong> <span class="badge-success">Concluído</span>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 1: RELATO DO CLIENTE -->
+        <section class="card">
+            <h2>1. Relato do Cliente</h2>
+            <p>
+                O cliente deu entrada no suporte informando extrema lentidão no sistema e travamentos constantes após
+                tentar baixar e instalar o jogo <strong>Counter-Strike 1.6</strong> por um link não oficial na internet. 
+                Relatou imensa dificuldade para abrir outros programas (como navegadores e editores de texto) e informou que 
+                tentou remover o jogo pelo Painel de Controle, porém o desinstalador apresentava erro e não permitia a
+                conclusão da remoção.
+            </p>
+        </section>
+
+        <!-- SEÇÃO 2: DIAGNÓSTICO TÉCNICO -->
+        <section class="card">
+            <h2>2. Diagnóstico Técnico</h2>
+            <ul>
+                <li><strong>Bloqueio de Ferramentas do Sistema:</strong> Desativação do utilitário de remoção do Windows (<em>Adicionar ou Remover Programas</em>) e travamento do processo de desinstalação.</li>
+                <li><strong>Sobrecarga de Hardware:</strong> Uso do processador Intel Core 2 Duo elevado para 99% e consumo de memória RAM próximo do limite em estado ocioso.</li>
+                <li><strong>Processos Suspeitos:</strong> Identificação de executáveis maliciosos ativos rodando em segundo plano no Gerenciador de Tarefas (<code>cs16_patch.exe</code> e <code>winupdate_sys.exe</code>).</li>
+                <li><strong>Classificação da Praga:</strong> O executável baixado continha um <strong>Trojan (Cavalo de Tróia)</strong> combinado com <strong>Adware/PUP</strong>, alterando chaves no Registro do Windows (<code>Regedit</code>) para impedir sua própria exclusão.</li>
+            </ul>
+        </section>
+
+        <!-- SEÇÃO 3: PROCEDIMENTOS TÉCNICOS DE SOLUÇÃO -->
+        <section class="card">
+            <h2>3. Procedimentos Técnicos de Solução</h2>
+            <ol>
+                <li>
+                    <strong>Isolamento Físico e Lógico:</strong> Desconectado o cabo de rede RJ-45 (Ethernet) para interromper a comunicação do Trojan com servidores externos (<em>Command & Control</em>) e impedir o vazamento de dados do usuário.
+                </li>
+                <li>
+                    <strong>Acesso em Modo de Segurança:</strong> O sistema foi reiniciado e acessado através da tecla <strong>F8</strong> no menu de boot do Windows, selecionando a opção <em>Modo de Segurança</em>. Isso impediu o carregamento automático das rotinas maliciosas no arranque.
+                </li>
+                <li>
+                    <strong>Interrupção e Desativação de Processos:</strong>
+                    <ul>
+                        <li>Finalização manual dos processos <code>cs16_patch.exe</code> e <code>winupdate_sys.exe</code> pelo Gerenciador de Tarefas (<code>taskmgr.exe</code>).</li>
+                        <li>Remoção das entradas de inicialização automática suspeitas utilizando a Configuração do Sistema (<code>msconfig</code>).</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Varredura e Descontaminação Completa:</strong>
+                    <ul>
+                        <li>Execução do <strong>CCleaner</strong> para correção do registro do Windows e remoção de atalhos de desinstalação órfãos/corrompidos.</li>
+                        <li>Varredura profunda com <strong>Spybot - Search & Destroy</strong> e <strong>Malwarebytes Anti-Malware (v1.x)</strong>.</li>
+                        <li>Remoção de 18 arquivos infectados e 42 chaves alteradas no Registro do Windows.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Sanitização e Ajustes de Rede:</strong>
+                    <ul>
+                        <li>Restauração do arquivo original <code>HOSTS</code> do Windows, eliminando redirecionamentos falsos que bloqueavam sites de antivírus.</li>
+                        <li>Exclusão dos arquivos temporários armazenados nos diretórios <code>%temp%</code> e <code>temp</code>.</li>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+
+        <!-- SEÇÃO 4: TESTES E VALIDAÇÃO -->
+        <section class="card">
+            <h2>4. Testes e Validação</h2>
+            <ul>
+                <li><strong>Estabilidade de Hardware:</strong> O consumo do processador caiu para 3% em repouso e o uso da memória RAM estabilizou dentro dos parâmetros normais.</li>
+                <li><strong>Navegação e Sistema:</strong> Abertura normal de navegadores e softwares de escritório sem travamentos ou pop-ups.</li>
+                <li><strong>Verificação Final:</strong> Executada nova varredura completa com o antivírus da máquina sem detecção de novas ameaças.</li>
+            </ul>
+        </section>
+
+        <!-- SEÇÃO 5: ORIENTAÇÕES E RECOMENDAÇÕES -->
+        <section class="card alert-box">
+            <h2>5. Recomendações ao Cliente</h2>
+            <ul>
+                <li>Evitar o download e a instalação de jogos, ativadores ou softwares oriundos de sites não oficiais ou links suspeitos.</li>
+                <li>Manter as definições de vacina do antivírus sempre atualizadas.</li>
+                <li>Realizar backups periódicos de arquivos pessoais importantes em mídias externas (Pen drives ou Discos Rígidos Externos).</li>
+            </ul>
+        </section>
+
+        <!-- SEÇÃO DE CONTATO / DÚVIDAS -->
+        <section class="card contact-card">
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h2>Dúvidas sobre este Atendimento?</h2>
+                    <p>Fale diretamente com o técnico responsável sobre esta Ordem de Serviço ou suporte adicional.</p>
+                </div>
+                <a href="https://wa.me/5518997991761" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.57 6.57 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592z"/>
+                    </svg>
+                    Falar no WhatsApp
+                </a>
+            </div>
+        </section>
+
+        <!-- RODAPÉ -->
+        <footer class="footer">
+            <p>Suporte Técnico em Informática — Black Mesa Research Facility | Documento de Validação Prática</p>
+        </footer>
+    </div>
+
+</body>
+
+</html>
